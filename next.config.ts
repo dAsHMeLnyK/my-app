@@ -1,15 +1,14 @@
 import type { NextConfig } from "next";
 
+const isGithubActions = process.env.GITHUB_ACTIONS || false;
+
 const nextConfig: NextConfig = {
-  /* config options here */
-  reactCompiler: true,
   output: 'export',
   images: {
     unoptimized: true,
   },
-  basePath: '/my-app',
-  assetPrefix: '/my-app/',
-
+  basePath: isGithubActions ? '/my-app' : '',
+  assetPrefix: isGithubActions ? '/my-app/' : '',
 };
 
 export default nextConfig;
