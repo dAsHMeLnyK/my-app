@@ -1,11 +1,10 @@
 import type { NextConfig } from "next";
 
 const isGithubActions = process.env.GITHUB_ACTIONS || false;
-
-const isPagesDeploy = process.env.GITHUB_WORKFLOW === 'Deploy to GitHub Pages';
+const isStaticExport = process.env.NEXT_PUBLIC_EXPORT === 'true';
 
 const nextConfig: NextConfig = {
-  output: isPagesDeploy ? 'export' : 'standalone',
+  output: isStaticExport ? 'export' : 'standalone',
   images: {
     unoptimized: true,
   },
