@@ -7,6 +7,8 @@ RUN npm ci --frozen-lockfile
 # Stage 2: Збирання проєкту
 FROM node:24-alpine AS builder
 WORKDIR /app
+ARG DOCKER_BUILD=true
+ENV DOCKER_BUILD=${DOCKER_BUILD}
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build

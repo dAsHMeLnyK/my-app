@@ -33,11 +33,10 @@ jobs:
       - name: Run Unit Tests
         run: npm run test
 
-      - name: Build Next.js app
+      - name: Build Next.js app for GitHub Pages
         run: npm run build
         env:
-          NEXT_PUBLIC_EXPORT: 'true'
-      
+          IS_PAGES: 'true'
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

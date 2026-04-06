@@ -1,15 +1,16 @@
 import type { NextConfig } from "next";
 
-const isGithubActions = process.env.GITHUB_ACTIONS || false;
-const isStaticExport = process.env.NEXT_PUBLIC_EXPORT === 'true';
+const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
+const isPages = process.env.IS_PAGES === 'true' || process.env.NEXT_PUBLIC_EXPORT === 'true';
+const isDockerBuild = process.env.DOCKER_BUILD === 'true';
 
 const nextConfig: NextConfig = {
-  output: isStaticExport ? 'export' : 'standalone',
+  output: isDockerBuild ? 'standalone' : isPages ? 'export' : 'standalone',
   images: {
     unoptimized: true,
   },
-  basePath: isGithubActions ? '/my-app' : '',
-  assetPrefix: isGithubActions ? '/my-app/' : '',
+  basePath: isGithubActions && isPages ? '/my-app' : '',
+  assetPrefix: isGithubActions && isPages ? '/my-app/' : '',
 };
 
 export default nextConfig;
