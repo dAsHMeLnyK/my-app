@@ -8,3 +8,5 @@ describe('Home', () => {
     expect(heading).toBeInTheDocument()
   })
 })
+
+// Lab 5 testing
