@@ -15,6 +15,9 @@ permissions:
 jobs:
   quality-checks:
     runs-on: ubuntu-latest
+    # ДОДАЄМО ТУТ:
+    env:
+      IS_PAGES: 'true'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -33,10 +36,9 @@ jobs:
       - name: Run Unit Tests
         run: npm run test
 
-      - name: Build Next.js app for GitHub Pages
+      - name: Build Next.js app
         run: npm run build
-        env:
-          IS_PAGES: 'true'
+      
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
