@@ -7,8 +7,6 @@ RUN npm ci --frozen-lockfile
 # Stage 2: Збирання проєкту
 FROM node:24-alpine AS builder
 WORKDIR /app
-ARG DOCKER_BUILD=true
-ENV DOCKER_BUILD=${DOCKER_BUILD}
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
@@ -22,10 +20,6 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
-
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
-
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 

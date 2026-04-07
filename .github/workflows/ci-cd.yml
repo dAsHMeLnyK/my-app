@@ -9,15 +9,10 @@ on:
 permissions:
   contents: read
   packages: write
-  pages: write
-  id-token: write
 
 jobs:
   quality-checks:
     runs-on: ubuntu-latest
-    # ДОДАЄМО ТУТ:
-    env:
-      IS_PAGES: 'true'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,6 +21,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -35,14 +31,6 @@ jobs:
 
       - name: Run Unit Tests
         run: npm run test
-
-      - name: Build Next.js app
-        run: npm run build
-      
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./out
 
   build-and-publish:
     needs: quality-checks
@@ -62,7 +50,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels)
+      - name: Extract metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
